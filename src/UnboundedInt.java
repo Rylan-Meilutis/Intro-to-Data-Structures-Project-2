@@ -57,8 +57,23 @@ public class UnboundedInt implements Cloneable {
         size++;
     }
 
+
+    /**
+     * Method to add two unbounded ints together
+     *
+     * @param addend The other unbounded int to add
+     *
+     * @return A new unbounded int containing sum of the two unbounded ints
+     *
+     * @throws IllegalArgumentException If the other unbounded int is null
+     * <dt><b>Precondition</b>Other is not null</dt>
+     * <dt><b>Postcondition</b>The original unbounded ints are unchanged</dt>
+     */
     public UnboundedInt add(UnboundedInt addend) {
         //add the two unbounded ints together going node by node and handling the carry
+        if (addend == null) {
+            throw new IllegalArgumentException("Addend cannot be null");
+        }
         UnboundedInt sum = new UnboundedInt("0");
         sum.head = null;
         sum.tail = null;
@@ -83,6 +98,34 @@ public class UnboundedInt implements Cloneable {
             sum.addEnd(carry);
         }
         return sum;
+    }
+
+    UnboundedInt multiply(UnboundedInt factor) {
+        // Multiply the two unbounded ints together going node by node and handling the carry
+        UnboundedInt product = new UnboundedInt("0");
+        product.head = null;
+        product.tail = null;
+        IntNode current = head;
+        IntNode otherCurrent = factor.head;
+        int carry = 0;
+        int count = 0;
+        while (current != null) {
+            int value = carry;
+            otherCurrent = factor.head; // Reset otherCurrent for each iteration
+            while (otherCurrent != null) {
+                value += current.getData() * otherCurrent.getData();
+                otherCurrent = otherCurrent.getLink();
+            }
+            carry = value / 1000;
+            value = value % 1000;
+            product.addEnd(value);
+            current = current.getLink();
+            count++;
+        }
+        if (carry > 0) {
+            product.addEnd(carry);
+        }
+        return product;
     }
 
 
