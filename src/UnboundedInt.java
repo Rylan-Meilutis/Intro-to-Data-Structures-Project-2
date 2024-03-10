@@ -243,7 +243,9 @@ public class UnboundedInt implements Cloneable {
             sb.insert(0, ",");
             current = current.getLink();
         }
-        sb.deleteCharAt(0);
+        if (!sb.isEmpty()) {
+            sb.deleteCharAt(0);
+        }
         return sb.toString();
     }
 }
