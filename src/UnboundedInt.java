@@ -1,3 +1,11 @@
+/**
+ * The UnboundedInt class represents an unbounded integer, which is a positive integer that can be of any size. The
+ * UnboundedInt class uses a linked list to store the digits of the unbounded integer, with each node containing 3
+ * digits of the integer.
+ *
+ * @author Rylan Meilutis
+ * @author Vassily Dudkin
+ */
 public class UnboundedInt implements Cloneable {
     private IntNode head;
     private int size;
@@ -22,6 +30,11 @@ public class UnboundedInt implements Cloneable {
             throw new IllegalArgumentException("UnboundedInt cannot be empty");
         }
 
+        //guard clause to check if the unboundedInt is only digits
+        if (!unboundedInt.matches(
+                "\\d+")) { // regex patterns found at https://stackoverflow.com/questions/4463867/java-regular-expression-match
+            throw new IllegalArgumentException("UnboundedInt must only contain digits");
+        }
         if (unboundedInt.charAt(0) == '-') {
             throw new IllegalArgumentException("UnboundedInt must be a positive number");
         }
@@ -32,6 +45,18 @@ public class UnboundedInt implements Cloneable {
             int value = Integer.parseInt(sub);
             addEnd(value); // Insert the parsed value at the tail of the linked list
         }
+    }
+
+    /**
+     * Default constructor for the UnboundedInt class, creates an empty unbounded int initialized to 0
+     */
+    public UnboundedInt() {
+        head = null;
+        tail = null;
+        size = 0;
+
+        addEnd(0);
+
     }
 
     /**
@@ -70,11 +95,12 @@ public class UnboundedInt implements Cloneable {
      * <dt><b>Postcondition</b>The original unbounded ints are unchanged</dt>
      */
     public UnboundedInt add(UnboundedInt addend) {
-        //add the two unbounded ints together going node by node and handling the carry
+        //guard clause to check if the addend is null
         if (addend == null) {
             throw new IllegalArgumentException("Addend cannot be null");
         }
-        UnboundedInt sum = new UnboundedInt("0");
+        //add the two unbounded ints together going node by node and handling the carry
+        UnboundedInt sum = new UnboundedInt();
         sum.head = null;
         sum.tail = null;
         IntNode current = head;
@@ -100,15 +126,29 @@ public class UnboundedInt implements Cloneable {
         return sum;
     }
 
+    /**
+     * Method to multiply two unbounded ints together
+     *
+     * @param factor The other unbounded int to multiply
+     *
+     * @return A new unbounded int containing the product of the two unbounded ints
+     *
+     * @throws IllegalArgumentException If the other unbounded int is null
+     * <dt><b>Precondition</b>Factor is not null</dt>
+     * <dt><b>Postcondition</b>The original unbounded ints are unchanged</dt>
+     */
     UnboundedInt multiply(UnboundedInt factor) {
+        //guard clause to check if the factor is null
+        if (factor == null) {
+            throw new IllegalArgumentException("Factor cannot be null");
+        }
         // Multiply the two unbounded ints together going node by node and handling the carry
-        UnboundedInt product = new UnboundedInt("0");
+        UnboundedInt product = new UnboundedInt();
         product.head = null;
         product.tail = null;
         IntNode current = head;
-        IntNode otherCurrent = factor.head;
+        IntNode otherCurrent;
         int carry = 0;
-        int count = 0;
         while (current != null) {
             int value = carry;
             otherCurrent = factor.head; // Reset otherCurrent for each iteration
@@ -120,7 +160,6 @@ public class UnboundedInt implements Cloneable {
             value = value % 1000;
             product.addEnd(value);
             current = current.getLink();
-            count++;
         }
         if (carry > 0) {
             product.addEnd(carry);
@@ -140,9 +179,12 @@ public class UnboundedInt implements Cloneable {
      * <dt><b>Precondition</b>Other is not null</dt>
      */
     public boolean equals(Object obj) {
+        //guard clause to check if the obj is null
         if (obj == null) {
             throw new IllegalArgumentException("Other cannot be null");
         }
+        // Check if the other object is an instance of UnboundedInt and if the size of the two unbounded ints are the
+        // same
         if (obj instanceof UnboundedInt other) {
             if (size != other.size) {
                 return false;
@@ -168,15 +210,21 @@ public class UnboundedInt implements Cloneable {
      *
      * @return a clone of the UnboundedInt object
      *
-     * @throws CloneNotSupportedException if the object cannot be cloned
+     * @throws RuntimeException if the class does not implement Cloneable
      */
-    public UnboundedInt clone() throws CloneNotSupportedException {
-        UnboundedInt clone = (UnboundedInt) super.clone();
-        IntNode current = head;
-        while (current != null) {
-            clone.addEnd(current.getData());
-            current = current.getLink();
+    public UnboundedInt clone() {
+        UnboundedInt clone;
+        try {
+            clone = (UnboundedInt) super.clone();
         }
+        catch (CloneNotSupportedException e) {
+            throw new RuntimeException("This class does not implement Cloneable.");
+        }
+
+        clone.head = IntNode.listCopy(this.head);
+        clone.size = this.size;
+
+        clone.tail = size > 1 ? IntNode.listPosition(clone.head, clone.size - 1) : clone.head;
         return clone;
     }
 
