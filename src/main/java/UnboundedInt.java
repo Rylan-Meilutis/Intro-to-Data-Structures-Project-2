@@ -32,10 +32,11 @@ public class UnboundedInt implements Cloneable {
         }
 
         //guard clause to check if the unboundedInt is only digits
-        if (!unboundedInt.matches(
-                "\\d+")) { // regex patterns found at https://stackoverflow.com/questions/4463867/java-regular-expression-match
+        // regex patterns found at https://stackoverflow.com/questions/4463867/java-regular-expression-match
+        if (!unboundedInt.matches("\\d+")) {
             throw new IllegalArgumentException("UnboundedInt must only contain digits");
         }
+        //guard clause to check if the unboundedInt is a positive number
         if (unboundedInt.charAt(0) == '-') {
             throw new IllegalArgumentException("UnboundedInt must be a positive number");
         }
@@ -55,9 +56,7 @@ public class UnboundedInt implements Cloneable {
         head = null;
         tail = null;
         size = 0;
-
         addEnd(0);
-
     }
 
     /**
@@ -167,7 +166,8 @@ public class UnboundedInt implements Cloneable {
             IntNode factorCurrent = factor.head; // Multiply the current digit with each digit of the factor
 
             while (factorCurrent != null) {
-                int value = (current.getData() * factorCurrent.getData()) + carry; // Multiply the current digit with the
+                int value =
+                        (current.getData() * factorCurrent.getData()) + carry; // Multiply the current digit with the
                 // factor and add the carry
                 carry = value / 1000;
                 value %= 1000;
