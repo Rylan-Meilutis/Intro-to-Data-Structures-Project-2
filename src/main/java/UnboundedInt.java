@@ -6,6 +6,7 @@
  * @author Rylan Meilutis
  * @author Vassily Dudkin
  */
+
 public class UnboundedInt implements Cloneable {
     private IntNode head;
     private int size;
@@ -67,7 +68,7 @@ public class UnboundedInt implements Cloneable {
      * @throws IllegalArgumentException If the value is not between 0 and 999
      * <dt><b>Precondition</b>Value is a positive value less than 1000</dt>
      */
-    private void addEnd(int value) {
+    void addEnd(int value) {
         if (value < 0 || value > 999) {
             throw new IllegalArgumentException("Value must be between 0 and 999");
         }
@@ -146,6 +147,7 @@ public class UnboundedInt implements Cloneable {
         }
 
         UnboundedInt product = new UnboundedInt();
+        //remove the first node so that the new unbounded int isn't shifted 3 digits to the left
         product.head = null;
         product.tail = null;
 
@@ -155,6 +157,7 @@ public class UnboundedInt implements Cloneable {
         while (current != null) {
             int carry = 0;
             UnboundedInt partialProduct = new UnboundedInt(); // Stores partial product for current digit
+            //remove the first node so that the new unbounded int isn't shifted 3 digits to the left
             partialProduct.head = null;
             partialProduct.tail = null;
             for (int i = 0; i < shift; i++) {
@@ -164,10 +167,11 @@ public class UnboundedInt implements Cloneable {
             IntNode factorCurrent = factor.head; // Multiply the current digit with each digit of the factor
 
             while (factorCurrent != null) {
-                int value = (current.getData() * factorCurrent.getData()) + carry;
+                int value = (current.getData() * factorCurrent.getData()) + carry; // Multiply the current digit with the
+                // factor and add the carry
                 carry = value / 1000;
                 value %= 1000;
-                partialProduct.addEnd(value);
+                partialProduct.addEnd(value); // Add the value to the partial product
                 factorCurrent = factorCurrent.getLink();
             }
 
