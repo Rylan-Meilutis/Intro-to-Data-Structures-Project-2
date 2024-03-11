@@ -11,7 +11,8 @@ public class UnboundedIntTester {
         int choice = 0;
 
         while (choice != 7) {
-            System.out.println("\nUnbounded Int Test Menu:");
+            System.out.println();
+            System.out.println("Unbounded Int Test Menu:");
             System.out.println("1. Display both numbers (with commas)");
             System.out.println("2. Input two new numbers (without commas)");
             System.out.println("3. Check if numbers are equal");
@@ -21,6 +22,7 @@ public class UnboundedIntTester {
             System.out.println("7. Quit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
+            System.out.println();
 
             try {
                 switch (choice) {
@@ -54,6 +56,7 @@ public class UnboundedIntTester {
                         System.out.println("Invalid choice");
                         break;
                 }
+                System.out.println();
             }
             catch (IllegalStateException | IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage());
@@ -73,16 +76,18 @@ public class UnboundedIntTester {
     static UnboundedInt[] getUnboundedInts(Scanner scanner) {
         UnboundedInt[] unboundedIntsArray = {null, null};
 
-        for (int i = 0; i < 2; i++) {
-            boolean passed = false;
+        for (int i = 0; i < unboundedIntsArray.length; i++) { // loop through the array and get the unbounded ints from
+            // the user only 2 for now
+            boolean passed = false; // flag to check if the input is valid
             while (!passed) {
                 try {
                     System.out.print("Enter unbounded int " + (i + 1) + ": ");
-                    unboundedIntsArray[i] = new UnboundedInt(scanner.nextLine());
-                    passed = true;
+                    unboundedIntsArray[i] = new UnboundedInt(scanner.nextLine()); // create the unbounded int
+                    passed = true; // if the input is valid, set the flag to true
                 }
                 catch (IllegalArgumentException e) {
-                    System.out.println("Error creating unbounded int " + (i + 1) + ": " + e.getMessage());
+                    System.out.println("Error creating unbounded int " + (i + 1) + ": " + e.getMessage()); //notify the
+                    // user of the error
                 }
             }
         }

@@ -101,13 +101,16 @@ public class UnboundedInt implements Cloneable {
         }
         //add the two unbounded ints together going node by node and handling the carry
         UnboundedInt sum = new UnboundedInt();
+        //remove the first node so that the new unbounded int isn't shifted 3 digits to the left
         sum.head = null;
         sum.tail = null;
+
         IntNode current = head;
         IntNode otherCurrent = addend.head;
         int carry = 0;
-        while (current != null || otherCurrent != null) {
-            int value = carry;
+        while (current != null ||
+               otherCurrent != null) { // Iterate over the linked list and add the values of each node
+            int value = carry; // Add the carry to the value
             if (current != null) {
                 value += current.getData();
                 current = current.getLink();
@@ -138,32 +141,45 @@ public class UnboundedInt implements Cloneable {
      * <dt><b>Postcondition</b>The original unbounded ints are unchanged</dt>
      */
     UnboundedInt multiply(UnboundedInt factor) {
-        //guard clause to check if the factor is null
         if (factor == null) {
             throw new IllegalArgumentException("Factor cannot be null");
         }
-        // Multiply the two unbounded ints together going node by node and handling the carry
+
         UnboundedInt product = new UnboundedInt();
         product.head = null;
         product.tail = null;
+
         IntNode current = head;
-        IntNode otherCurrent;
-        int carry = 0;
+        int shift = 0;
+
         while (current != null) {
-            int value = carry;
-            otherCurrent = factor.head; // Reset otherCurrent for each iteration
-            while (otherCurrent != null) {
-                value += current.getData() * otherCurrent.getData();
-                otherCurrent = otherCurrent.getLink();
+            int carry = 0;
+            UnboundedInt partialProduct = new UnboundedInt(); // Stores partial product for current digit
+            partialProduct.head = null;
+            partialProduct.tail = null;
+            for (int i = 0; i < shift; i++) {
+                partialProduct.addEnd(0); // Append zeros for shifting
             }
-            carry = value / 1000;
-            value = value % 1000;
-            product.addEnd(value);
+
+            IntNode factorCurrent = factor.head; // Multiply the current digit with each digit of the factor
+
+            while (factorCurrent != null) {
+                int value = (current.getData() * factorCurrent.getData()) + carry;
+                carry = value / 1000;
+                value %= 1000;
+                partialProduct.addEnd(value);
+                factorCurrent = factorCurrent.getLink();
+            }
+
+            if (carry > 0) {
+                partialProduct.addEnd(carry); // Add any remaining carry
+            }
+
+            product = product.add(partialProduct); // Add the partial product to the final product
+            shift++;
             current = current.getLink();
         }
-        if (carry > 0) {
-            product.addEnd(carry);
-        }
+
         return product;
     }
 
@@ -186,12 +202,15 @@ public class UnboundedInt implements Cloneable {
         // Check if the other object is an instance of UnboundedInt and if the size of the two unbounded ints are the
         // same
         if (obj instanceof UnboundedInt other) {
-            if (size != other.size) {
+            if (size !=
+                other.size) { // If the sizes are different, the unbounded ints are not equal so no need for further
+                // checks
                 return false;
             }
             IntNode current = head;
             IntNode otherCurrent = other.head;
-            while (current != null && otherCurrent != null) {
+            while (current != null && otherCurrent != null) { // loop through the linked list and check if the data of
+                // each node is the same
                 if (current.getData() != otherCurrent.getData()) {
                     return false;
                 }
@@ -215,16 +234,17 @@ public class UnboundedInt implements Cloneable {
     public UnboundedInt clone() {
         UnboundedInt clone;
         try {
-            clone = (UnboundedInt) super.clone();
+            clone = (UnboundedInt) super.clone(); // Call the clone method of the Object class
         }
         catch (CloneNotSupportedException e) {
             throw new RuntimeException("This class does not implement Cloneable.");
         }
 
-        clone.head = IntNode.listCopy(this.head);
+        clone.head = IntNode.listCopy(this.head); // Copy the linked list
         clone.size = this.size;
 
-        clone.tail = size > 1 ? IntNode.listPosition(clone.head, clone.size - 1) : clone.head;
+        clone.tail = size > 1 ? IntNode.listPosition(clone.head, clone.size - 1) : clone.head; // Set the tail to the
+        // last node in the linked list if the size is greater than 1, otherwise set it to the head
         return clone;
     }
 
@@ -238,11 +258,12 @@ public class UnboundedInt implements Cloneable {
         // group of 3
         StringBuilder sb = new StringBuilder();
         IntNode current = head;
-        while (current != null) {
-            sb.insert(0, String.format("%03d", current.getData()));
-            sb.insert(0, ",");
+        while (current != null) { // loop through the linked list and add the data of each node to the string
+            sb.insert(0, String.format("%03d", current.getData())); //format the data to have leading zeros
+            sb.insert(0, ","); // Add a comma before every 3 digits value
             current = current.getLink();
         }
+        // Remove the leading comma if the unbounded int is not empty
         if (!sb.isEmpty()) {
             sb.deleteCharAt(0);
         }
