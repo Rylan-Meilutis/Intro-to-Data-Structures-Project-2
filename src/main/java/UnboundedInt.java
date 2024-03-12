@@ -34,17 +34,13 @@ public class UnboundedInt implements Cloneable {
 
         //guard clause to check if the unboundedInt is only digits
         // regex patterns found at https://stackoverflow.com/questions/4463867/java-regular-expression-match
-        if (!unboundedInt.matches("\\d+")) {
-
-            //guard clause to check if the unboundedInt is a positive number
-            if (unboundedInt.charAt(0) == '-') {
-                if (unboundedInt.substring(1).matches("\\d+"))
-                    throw new IllegalArgumentException("UnboundedInt must be a positive number");
-            }
-
+        if (!unboundedInt.matches("-?\\d+")) {
             throw new IllegalArgumentException("UnboundedInt must only contain digits");
         }
-
+        //guard clause to check if the unboundedInt is a positive number
+        if (unboundedInt.charAt(0) == '-') {
+            throw new IllegalArgumentException("UnboundedInt must be a positive number");
+        }
         // Iterate over every 3 characters in the string
         for (int i = unboundedInt.length(); i > 0; i -= 3) {
             int start = Math.max(i - 3, 0); // Calculate start index for substring
