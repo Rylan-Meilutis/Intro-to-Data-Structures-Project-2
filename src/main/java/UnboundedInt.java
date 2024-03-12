@@ -41,7 +41,7 @@ public class UnboundedInt implements Cloneable {
                 if (unboundedInt.substring(1).matches("\\d+"))
                     throw new IllegalArgumentException("UnboundedInt must be a positive number");
             }
-            
+
             throw new IllegalArgumentException("UnboundedInt must only contain digits");
         }
 
