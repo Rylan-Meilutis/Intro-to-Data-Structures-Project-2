@@ -38,10 +38,10 @@ public class UnboundedInt implements Cloneable {
 
             //guard clause to check if the unboundedInt is a positive number
             if (unboundedInt.charAt(0) == '-') {
-                throw new IllegalArgumentException("UnboundedInt must be a positive number");
+                if (unboundedInt.substring(1).matches("\\d+"))
+                    throw new IllegalArgumentException("UnboundedInt must be a positive number");
             }
-
-
+            
             throw new IllegalArgumentException("UnboundedInt must only contain digits");
         }
 
