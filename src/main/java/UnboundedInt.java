@@ -18,9 +18,10 @@ public class UnboundedInt implements Cloneable {
      *
      * @param unboundedInt The unbounded int as a string
      *
+     * @throws IllegalArgumentException If the input string is empty
+     * @throws IllegalArgumentException If the unbounded int is not made up of digits
      * @throws IllegalArgumentException If the unbounded int is not a positive number
      * <dt><b>Precondition</b>unboundedInt is a positive number</dt>
-     * @throws IllegalArgumentException If the input string is empty
      */
     public UnboundedInt(String unboundedInt) {
         head = null;
@@ -34,12 +35,16 @@ public class UnboundedInt implements Cloneable {
         //guard clause to check if the unboundedInt is only digits
         // regex patterns found at https://stackoverflow.com/questions/4463867/java-regular-expression-match
         if (!unboundedInt.matches("\\d+")) {
+
+            //guard clause to check if the unboundedInt is a positive number
+            if (unboundedInt.charAt(0) == '-') {
+                throw new IllegalArgumentException("UnboundedInt must be a positive number");
+            }
+
+
             throw new IllegalArgumentException("UnboundedInt must only contain digits");
         }
-        //guard clause to check if the unboundedInt is a positive number
-        if (unboundedInt.charAt(0) == '-') {
-            throw new IllegalArgumentException("UnboundedInt must be a positive number");
-        }
+
         // Iterate over every 3 characters in the string
         for (int i = unboundedInt.length(); i > 0; i -= 3) {
             int start = Math.max(i - 3, 0); // Calculate start index for substring
