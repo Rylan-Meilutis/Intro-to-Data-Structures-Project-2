@@ -33,7 +33,8 @@ public class UnboundedInt implements Cloneable {
         }
 
         //guard clause to check if the unboundedInt is only digits
-        // regex patterns found at https://stackoverflow.com/questions/4463867/java-regular-expression-match
+        // regex usage found at https://stackoverflow.com/questions/4463867/java-regular-expression-match
+        //regex characters and meanings found at https://www.rexegg.com/regex-quickstart.html
         if (!unboundedInt.matches("-?\\d+")) {
             throw new IllegalArgumentException("UnboundedInt must only contain digits");
         }
