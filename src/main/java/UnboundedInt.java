@@ -8,6 +8,10 @@
  */
 
 public class UnboundedInt implements Cloneable {
+    //Invariant:
+    //head is the first node in the linked list
+    //tail is the last node in the linked list
+    //size is the number of nodes in the linked list
     private IntNode head;
     private int size;
     private IntNode tail;
@@ -271,6 +275,10 @@ public class UnboundedInt implements Cloneable {
         }
         // Remove the leading comma if the unbounded int is not empty
         if (!sb.isEmpty()) {
+            sb.deleteCharAt(0);
+        }
+        //remove leading zeros
+        while (sb.charAt(0) == '0' && sb.length() > 1) {
             sb.deleteCharAt(0);
         }
         return sb.toString();

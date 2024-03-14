@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UnboundedIntTest {
@@ -64,7 +65,7 @@ class UnboundedIntTest {
         UnboundedInt unboundedInt1 = new UnboundedInt("123");
         UnboundedInt unboundedInt2 = new UnboundedInt("456");
         UnboundedInt product = unboundedInt1.multiply(unboundedInt2);
-        assertEquals("056,088", product.toString());
+        assertEquals("56,088", product.toString());
     }
 
 
@@ -73,7 +74,7 @@ class UnboundedIntTest {
         UnboundedInt unboundedInt1 = new UnboundedInt("1234372859234525634256783249");
         UnboundedInt unboundedInt2 = new UnboundedInt("4565435742357423952343");
         UnboundedInt product = unboundedInt1.multiply(unboundedInt2);
-        assertEquals("005,635,449,970,945,232,517,063,671,588,690,294,102,215,056,702,407", product.toString());
+        assertEquals("5,635,449,970,945,232,517,063,671,588,690,294,102,215,056,702,407", product.toString());
     }
 
     @Test
@@ -118,6 +119,6 @@ class UnboundedIntTest {
     @Test
     void toStringWithLeading0sUnboundedInt() {
         UnboundedInt unboundedInt = new UnboundedInt("1123456");
-        assertEquals("001,123,456", unboundedInt.toString());
+        assertEquals("1,123,456", unboundedInt.toString());
     }
 }

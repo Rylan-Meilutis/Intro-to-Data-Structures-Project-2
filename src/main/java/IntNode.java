@@ -71,9 +71,9 @@ public class IntNode {
         int answer;
 
         answer = 0;
-       for (cursor = head; cursor != null; cursor = cursor.link) {
-          answer++;
-       }
+        for (cursor = head; cursor != null; cursor = cursor.link) {
+            answer++;
+        }
 
         return answer;
     }
@@ -90,11 +90,11 @@ public class IntNode {
     public static IntNode listSearch(IntNode head, int target) {
         IntNode cursor;
 
-       for (cursor = head; cursor != null; cursor = cursor.link) {
-          if (target == cursor.data) {
-             return cursor;
-          }
-       }
+        for (cursor = head; cursor != null; cursor = cursor.link) {
+            if (target == cursor.data) {
+                return cursor;
+            }
+        }
 
         return null;
     }
@@ -116,14 +116,14 @@ public class IntNode {
         IntNode cursor;
         int i;
 
-       if (position <= 0) {
-          throw new IllegalArgumentException("position is not positive");
-       }
+        if (position <= 0) {
+            throw new IllegalArgumentException("position is not positive");
+        }
 
         cursor = head;
-       for (i = 1; (i < position) && (cursor != null); i++) {
-          cursor = cursor.link;
-       }
+        for (i = 1; (i < position) && (cursor != null); i++) {
+            cursor = cursor.link;
+        }
 
         return cursor;
     }
@@ -143,9 +143,9 @@ public class IntNode {
         IntNode copyTail;
 
         // Handle the special case of the empty list.
-       if (source == null) {
-          return null;
-       }
+        if (source == null) {
+            return null;
+        }
 
         // Make the first node for the newly created list.
         copyHead = new IntNode(source.data, null);
@@ -178,9 +178,9 @@ public class IntNode {
         IntNode[] answer = new IntNode[2];
 
         // Handle the special case of the empty list.
-       if (source == null) {
-          return answer; // The answer has two null references .
-       }
+        if (source == null) {
+            return answer; // The answer has two null references .
+        }
 
         // Make the first node for the newly created list.
         copyHead = new IntNode(source.data, null);
@@ -231,10 +231,10 @@ public class IntNode {
         // Make the rest of the nodes for the newly created list.
         while (cursor != end) {
             cursor = cursor.link;
-           if (cursor == null) {
-              throw new IllegalArgumentException
-                      ("end node was not found on the list");
-           }
+            if (cursor == null) {
+                throw new IllegalArgumentException
+                        ("end node was not found on the list");
+            }
             copyTail.addNodeAfter(cursor.data);
             copyTail = copyTail.link;
         }
