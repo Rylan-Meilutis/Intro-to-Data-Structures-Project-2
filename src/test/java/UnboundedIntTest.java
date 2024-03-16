@@ -100,7 +100,7 @@ class UnboundedIntTest {
     @Test
     void equalsWithNullUnboundedInt() {
         UnboundedInt unboundedInt = new UnboundedInt("123456");
-        assertThrows(IllegalArgumentException.class, () -> unboundedInt.equals(null));
+        assertNotEquals(null, unboundedInt);
     }
 
     @Test

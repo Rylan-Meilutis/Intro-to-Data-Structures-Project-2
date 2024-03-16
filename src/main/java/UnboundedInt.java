@@ -199,15 +199,13 @@ public class UnboundedInt implements Cloneable {
      *
      * @param obj The other unbounded int to add
      *
-     * @return The sum of the two unbounded ints
+     * @return whether the two unbounded ints are equal
      *
-     * @throws IllegalArgumentException If the other unbounded int is null
-     * <dt><b>Precondition</b>Other is not null</dt>
      */
     public boolean equals(Object obj) {
         //guard clause to check if the obj is null
         if (obj == null) {
-            throw new IllegalArgumentException("Other cannot be null");
+            return false;
         }
         // Check if the other object is an instance of UnboundedInt and if the size of the two unbounded ints are the
         // same
