@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 // Authors Rylan Meilutis and Vassily Dudkin
-public class UnboundedIntTester {
+public class LargeNumberTest {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
